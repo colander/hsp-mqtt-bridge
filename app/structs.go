@@ -53,8 +53,8 @@ type HspCommand struct {
 	HeatingCurve      *int  `json:"ht_char,omitempty"`
 	Start             *bool `json:"prg,omitempty"`
 	StartWeekProgram  *bool `json:"wprg,omitempty"`
-	EcoMode           *bool `json:"eco_mode,omitempty"`
-	RoomMode          *bool `json:"room_mode,omitempty"`
+	RoomMode           *bool `json:"room_mode,omitempty"`
+	EcoMode          *bool `json:"eco_mode,omitempty"`
 }
 
 type HspSensorDiscovery struct {
