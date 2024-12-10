@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   stove-bridge:
-    image: registry.github.com/colander/hsp-mqttbridge:latest
+    image: github.com/colander/hsp-mqttbridge:latest
     depends_on:
       - stove-builder
     build:
