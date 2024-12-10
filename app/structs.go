@@ -37,6 +37,8 @@ type HspStove struct {
 	WeekProgram        []HspWeekProgram `json:"weekprogram"`
 	Error              []HspStoveError  `json:"error"`
 	EcoMode            bool             `json:"eco_mode"`
+	RoomMode           bool             `json:"room_mode"`
+	TvlTemperature     int              `json:"tvl_temp"`
 	Pgi                bool             `json:"pgi"`
 	Ignitions          int              `json:"ignitions"`
 	OnTime             int              `json:"on_time"`
@@ -47,8 +49,12 @@ type HspStove struct {
 
 type HspCommand struct {
 	TargetTemperature *int  `json:"sp_temp,omitempty"`
+	TvlTemperature    *int  `json:"tvl_temp,omitempty"`
+	HeatingCurve      *int  `json:"ht_char,omitempty"`
 	Start             *bool `json:"prg,omitempty"`
 	StartWeekProgram  *bool `json:"wprg,omitempty"`
+	EcoMode           *bool `json:"eco_mode,omitempty"`
+	RoomMode          *bool `json:"room_mode,omitempty"`
 }
 
 type HspSensorDiscovery struct {
