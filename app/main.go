@@ -236,6 +236,26 @@ func autodiscovery() {
 	jsonValue, _ = json.Marshal(hspClimate)
 	mqttClient.Publish(fmt.Sprintf("homeassistant/climate/hsp_%s/config", stove.Meta.SerialNumber), 1, true, jsonValue)
 
+	var hspForwardFlow = HspClimateDiscovery{
+		Device:                   hspDevice,
+		Name:                     fmt.Sprintf("HSP %s Forward Flow Temperature", stove.Meta.SerialNumber),
+		UniqueId:                 fmt.Sprintf("hsp-%s-climate", stove.Meta.SerialNumber),
+		ForceUpdate:              true,
+		TempCommandTopic:         fmt.Sprintf("hsp-%s/command/tvl_temperature", stove.Meta.SerialNumber),
+		TempStateTopic:           fmt.Sprintf("hsp-%s/result", stove.Meta.SerialNumber),
+		TempStateTemplate:        "{{ value_json['tvl_temp'] }}",
+		CurrentTempStateTopic:    fmt.Sprintf("hsp-%s/result", stove.Meta.SerialNumber),
+		CurrentTempStateTemplate: "{{ value_json['is_temp'] }}",
+		MinTemp:                  "55",
+		MaxTemp:                  "70",
+		TempStep:                 "1",
+		ModeStateTopic:           fmt.Sprintf("hsp-%s/result", stove.Meta.SerialNumber),
+		ModeStateTemplate:        "{{ 'heat' }}",
+		Modes:                    []string{"heat"},
+	}
+	jsonValue, _ = json.Marshal(hspForwardFlow)
+	mqttClient.Publish(fmt.Sprintf("homeassistant/climate/hsp_%s/config", stove.Meta.SerialNumber), 1, true, jsonValue)
+	
 	var hspClearErrorBtn = HspButtonDiscovery{
 		Device:        hspDevice,
 		Name:          "Clear Error",
