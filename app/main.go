@@ -272,19 +272,19 @@ func subscribeMqtt() {
 		log.Printf("Topic %s was published, Value: %s \r\n", message.Topic(), string(message.Payload()))
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/power", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseBool(string(message.Payload()))
-			command(nil, BoolPointer(payload), nil, nil, nil, nil, nil)
+			command(nil, nil, nil, BoolPointer(payload), nil, nil, nil)
 		}
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/weekProgram", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseBool(string(message.Payload()))
-			command(nil, nil, BoolPointer(payload), nil, nil, nil, nil)
+			command(nil, nil, nil, nil, BoolPointer(payload), nil, nil)
 		}
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/roomMode", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseBool(string(message.Payload()))
-			command(nil, nil, nil, BoolPointer(payload), nil, nil, nil)
+			command(nil, nil, nil, nil, nil, BoolPointer(payload), nil)
 		}
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/ecoMode", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseBool(string(message.Payload()))
-			command(nil, nil, nil, nil, BoolPointer(payload), nil, nil)
+			command(nil, nil, nil, nil, nil, nil, BoolPointer(payload))
 		}
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/target_temperature", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseFloat(string(message.Payload()), 0)
@@ -294,12 +294,12 @@ func subscribeMqtt() {
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/forward_flow_temperature", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseFloat(string(message.Payload()), 0)
 			var p int = int(payload)
-			command(nil, nil, nil, nil, nil, IntPointer(p), nil)
+			command(nil, IntPointer(p), nil, nil, nil, nil, nil)
 		}
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/heating_curve_temperature", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseFloat(string(message.Payload()), 0)
 			var p int = int(payload)
-			command(nil, nil, nil, nil, nil, nil, IntPointer(p))
+			command(nil, nil, IntPointer(p), nil, nil, nil, nil)
 		}
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/clean_error", stove.Meta.SerialNumber) {
 			currentError := callStove()
