@@ -231,7 +231,7 @@ func autodiscovery() {
 		TempStep:                 "1",
 		ModeStateTopic:           fmt.Sprintf("hsp-%s/result", stove.Meta.SerialNumber),
 		ModeStateTemplate:        "{{ 'heat' }}",
-		Modes:                    []string{"heat"},
+		Modes:                    []string{"start","heat", "eco", "cooling", "standby", "off"},
 	}
 	jsonValue, _ = json.Marshal(hspClimate)
 	mqttClient.Publish(fmt.Sprintf("homeassistant/climate/hsp_%s/config", stove.Meta.SerialNumber), 1, true, jsonValue)
