@@ -266,6 +266,9 @@ func subscribeMqtt() {
 	topics[fmt.Sprintf("hsp-%s/command/weekProgram", stove.Meta.SerialNumber)] = 1
 	topics[fmt.Sprintf("hsp-%s/command/roomMode", stove.Meta.SerialNumber)] = 1
 	topics[fmt.Sprintf("hsp-%s/command/ecoMode", stove.Meta.SerialNumber)] = 1
+	topics[fmt.Sprintf("hsp-%s/command/target_temperature", stove.Meta.SerialNumber)] = 1
+	topics[fmt.Sprintf("hsp-%s/command/forward_flow_temperature", stove.Meta.SerialNumber)] = 1
+	topics[fmt.Sprintf("hsp-%s/command/heating_curve", stove.Meta.SerialNumber)] = 1
 	topics[fmt.Sprintf("hsp-%s/command/clean_error", stove.Meta.SerialNumber)] = 1
 
 	token := mqttClient.SubscribeMultiple(topics, func(client mqtt.Client, message mqtt.Message) {
@@ -296,7 +299,7 @@ func subscribeMqtt() {
 			var p int = int(payload)
 			command(nil, IntPointer(p), nil, nil, nil, nil, nil)
 		}
-		if message.Topic() == fmt.Sprintf("hsp-%s/command/heating_curve_temperature", stove.Meta.SerialNumber) {
+		if message.Topic() == fmt.Sprintf("hsp-%s/command/heating_curve", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseFloat(string(message.Payload()), 0)
 			var p int = int(payload)
 			command(nil, nil, IntPointer(p), nil, nil, nil, nil)
