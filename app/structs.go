@@ -86,6 +86,15 @@ type HspSwitchDiscovery struct {
 	ValueTemplate string    `json:"val_tpl"`
 	ForceUpdate   bool      `json:"frc_upd"`
 }
+type HspInputNumberDiscovery struct {
+	Device        HspDevice `json:"device"`
+	Name          string    `json:"name"`
+	UniqueId      string    `json:"uniq_id"`
+	CommandTopic  string    `json:"cmd_t"`
+	NumberMin     float	`json:"n_min"`
+	NumberMax     float	`json:"n_max"`
+	ValueTemplate string    `json:"val_tpl"`
+}
 type HspDevice struct {
 	Ids             []string `json:"ids"`
 	Name            string   `json:"name"`
