@@ -216,6 +216,20 @@ func autodiscovery() {
 	jsonValue, _ = json.Marshal(ecoModeSwitch)
 	mqttClient.Publish(fmt.Sprintf("homeassistant/switch/hsp_%s_eco_mode/config", stove.Meta.SerialNumber), 1, true, jsonValue)
 
+	var heatCurveInputNumber = HspInputNumberDiscovery{
+		Name:          fmt.Sprintf("HSP %s Heating Curve", stove.Meta.SerialNumber),
+		UniqueId:      fmt.Sprintf("hsp-%s-heating_curve", stove.Meta.SerialNumber),
+		ForceUpdate:   true,
+		StateTopic:    fmt.Sprintf("hsp-%s/result", stove.Meta.SerialNumber),
+		ValueTemplate: "{{ value_json['ht_char'] }}",
+		Device:        hspDevice,
+		CommandTopic:  fmt.Sprintf("hsp-%s/command/heatingCurve", stove.Meta.SerialNumber),
+		NumberMin:     1,
+		NumberMax:     4,
+	}
+	jsonValue, _ = json.Marshal(heatCurveInputNumber)
+	mqttClient.Publish(fmt.Sprintf("homeassistant/input_number/hsp_%s_heating_curve/config", stove.Meta.SerialNumber), 1, true, jsonValue)
+
 	var hspClimate = HspClimateDiscovery{
 		Device:                   hspDevice,
 		Name:                     fmt.Sprintf("HSP %s Temperature", stove.Meta.SerialNumber),
