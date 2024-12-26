@@ -134,3 +134,7 @@ func IntPointer(number int) *int {
 	intVar := number
 	return &intVar
 }
+func FloatPointer(number float) *float {
+	floatVar := number
+	return &floatVar
+}
