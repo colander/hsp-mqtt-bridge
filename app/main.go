@@ -79,6 +79,17 @@ func autodiscovery() {
 	jsonValue, _ = json.Marshal(tvlTemp)
 	mqttClient.Publish(fmt.Sprintf("homeassistant/sensor/hsp_%s_forward_flow_temp/config", stove.Meta.SerialNumber), 1, true, jsonValue)
 
+	var heatCurve = HspSensorDiscovery{
+		Name:          fmt.Sprintf("HSP %s Heating Curve", stove.Meta.SerialNumber),
+		UniqueId:      fmt.Sprintf("hsp-%s-ht_char", stove.Meta.SerialNumber),
+		ForceUpdate:   true,
+		StateTopic:    fmt.Sprintf("hsp-%s/result", stove.Meta.SerialNumber),
+		ValueTemplate: "{{ value_json['ht_char'] }}",
+		Device:        hspDevice,
+	}
+	jsonValue, _ = json.Marshal(heatCurve)
+	mqttClient.Publish(fmt.Sprintf("homeassistant/sensor/hsp_%s_heating_curve/config", stove.Meta.SerialNumber), 1, true, jsonValue)
+
 	var ignitions = HspSensorDiscovery{
 		Name:          fmt.Sprintf("HSP %s Ignitions", stove.Meta.SerialNumber),
 		UniqueId:      fmt.Sprintf("hsp-%s-ignitions", stove.Meta.SerialNumber),
