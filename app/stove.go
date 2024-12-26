@@ -32,7 +32,7 @@ func calculatePin(nonce string, pin string) [16]byte {
 	return md5.Sum([]byte(nonce + hex.EncodeToString(bPin[:])))
 }
 
-func command(targetTemp *int, tvlTemperature *int, heatCurve *int, start *bool, weekProgramStart *bool, roomMode *bool, ecoMode *bool) {
+func command(targetTemp *int, tvlTemperature *int, heatCurve *float, start *bool, weekProgramStart *bool, roomMode *bool, ecoMode *bool) {
 	command := HspCommand{targetTemp, tvlTemperature, heatCurve, start, weekProgramStart, roomMode, ecoMode}
 	commandJson, _ := json.Marshal(command)
 	stove := callStove()
