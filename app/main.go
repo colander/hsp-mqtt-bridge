@@ -89,18 +89,7 @@ func autodiscovery() {
 	}
 	jsonValue, _ = json.Marshal(ignitions)
 	mqttClient.Publish(fmt.Sprintf("homeassistant/sensor/hsp_%s_ignitions/config", stove.Meta.SerialNumber), 1, true, jsonValue)
-
-	var heatCurve = HspSensorDiscovery{
-		Name:          fmt.Sprintf("HSP %s Heating Curve", stove.Meta.SerialNumber),
-		UniqueId:      fmt.Sprintf("hsp-%s-ht_char", stove.Meta.SerialNumber),
-		ForceUpdate:   true,
-		StateTopic:    fmt.Sprintf("hsp-%s/result", stove.Meta.SerialNumber),
-		ValueTemplate: "{{ value_json['ht_char'] }}",
-		Device:        hspDevice,
-	}
-	jsonValue, _ = json.Marshal(heatCurve)
-	mqttClient.Publish(fmt.Sprintf("homeassistant/sensor/hsp_%s_heating_curve/config", stove.Meta.SerialNumber), 1, true, jsonValue)
-
+	
 	var cleaningIn = HspSensorDiscovery{
 		Name:              fmt.Sprintf("HSP %s Cleaning In", stove.Meta.SerialNumber),
 		UniqueId:          fmt.Sprintf("hsp-%s-cleaning_in", stove.Meta.SerialNumber),
@@ -315,8 +304,8 @@ func subscribeMqtt() {
 		}
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/heating_curve", stove.Meta.SerialNumber) {
 			payload, _ := strconv.ParseFloat(string(message.Payload()), 0)
-			var p int = int(payload)
-			command(nil, nil, IntPointer(p), nil, nil, nil, nil)
+			var p float = float(payload)
+			command(nil, nil, FloatPointer(p), nil, nil, nil, nil)
 		}
 		if message.Topic() == fmt.Sprintf("hsp-%s/command/clean_error", stove.Meta.SerialNumber) {
 			currentError := callStove()
